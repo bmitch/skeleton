@@ -1,0 +1,39 @@
+before_script:
+    - composer install --prefer-dist > /dev/null
+    - export APP_ENV=testing
+    - touch storage/database.sqlite
+
+unitTesting:
+    script:
+        - echo "Running PHP Unit test"
+        - php vendor/bin/phpunit --colors --debug  --coverage-text --exclude-group selenium
+codeSniffer:
+    script:
+        - echo "Running PHPCS"
+        - php vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+        - php vendor/bin/phpcs --standard=phpcs.xml --ignore=app/views,app/storage,app/tests,app/filters.php,app/routes.php,packages/,app/Providers/,app/Console/,app/services/,http/Middleware/,app/Exceptions/,app/Events/ -w --colors app/
+    allow_failure: false
+
+phpMess:
+    script:
+        - echo "Running PHPMD"
+        - php vendor/bin/phpmd app/ text phpmd.xml
+    allow_failure: false
+
+phpCopyPaste:
+    script:
+        - echo "Running PHPCPD"
+        - vendor/bin/phpcpd app
+    allow_failure: false
+
+phpLoc:
+    script:
+        - echo "Running PHPLOC"
+        - vendor/bin/phploc app
+    allow_failure: false
+
+docBlocks:
+    script:
+        - echo "Checking doc blocks"
+        - php vendor/bin/phpcs app/ --standard=phpcsdocblocks.xml --ignore=app/views,app/storage,app/tests,app/filters.php,app/routes.php,packages/,app/Providers/,app/Console/,app/services/,http/Middleware/,app/Exceptions/,app/Events/ -w --colors app/
+    allow_failure: trueml
