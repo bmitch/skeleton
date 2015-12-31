@@ -36,4 +36,4 @@ docBlocks:
     script:
         - echo "Checking doc blocks"
         - php vendor/bin/phpcs app/ --standard=phpcsdocblocks.xml --ignore=app/views,app/storage,app/tests,app/filters.php,app/routes.php,packages/,app/Providers/,app/Console/,app/services/,http/Middleware/,app/Exceptions/,app/Events/ -w --colors app/
-    allow_failure: trueml
+    allow_failure: true
